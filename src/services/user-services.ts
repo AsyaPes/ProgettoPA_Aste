@@ -28,16 +28,14 @@ export const showALLUser = async(req: any, res: any) => {
  * @param res risposta da parte del sistema
  */
 export function showONEUser(user_id: any, res: any) {
-    
-    try{
-        User.findAll({where:{user_id: user_id}}).then(arr=>{
-        res.json(arr);
-        });
-    }
-    catch{ 
-        //res.json("err")
-        throw new ParamMissingError();
-    }
+    User.findAll({where:{user_id: user_id}}).then(arr=>{
+        if(!(arr.length === 0)){
+            res.json(arr);
+        }
+        else {
+            throw new UserNotFoundError();
+        }
+    });
 };
 
 /**

@@ -7,6 +7,7 @@ import StatusCodes from 'http-status-codes';
 import { CustomError } from './shared/errors';
 import { NextFunction, Request, Response } from 'express';
 import logger from 'jet-logger';
+import { ParamMissingError } from './shared/errors';
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.get('/showALLUser', function(req: any, res: any) {
     ServiceU.showALLUser( req, res);
 });
 
-app.get('/showONEUser', function(req: any, res: any) {    
+app.get('/showONEUser', function(req: any, res: any) { 
     ServiceU.showONEUser( req.body.user_id, res);
 });
 
