@@ -9,4 +9,4 @@ WORKDIR /usr/src/app
 COPY package.json .
 RUN npm install
 COPY --from=build /usr/src/app/ts-built ./ts-built
-CMD ["node"]
+CMD ["node", "ts-built/server.js"]
