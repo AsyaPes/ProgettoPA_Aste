@@ -39,3 +39,38 @@ export function checkToken ( user_id: string, bet: number, res: any): void {
         }
     });
 };
+
+export function chargingAdmin ( user_id: string, token: number, res: any ): void{
+    User.update({token: token}, {where: {user_id: user_id}}).then(arr => {
+        res.json(arr);
+    });
+};
+
+export function showToken(user_id:string,res:any){
+    User.findAll( {attributes: ['token'],
+       where: {user_id: user_id}}).then(arr=>{
+                   res.json(arr);
+    });
+};
+
+
+export function checkRole(user_id: string, res: any){
+    let result
+    User.findAll({where:{user_id:user_id}}).then(arr=>{
+        const role=(arr[0].getDataValue("role"))
+        const bip="bip_creator";
+        const par="bip_partecipant";
+        const admin="admin";
+            if (role===par){
+                result=0;
+                res.json(role);
+            }else if(role===bip){
+                result=1;
+                res.json(role);
+            }else if(role==admin){
+                result=2;
+                res.json(role);
+            }
+    });
+    return(result);
+};

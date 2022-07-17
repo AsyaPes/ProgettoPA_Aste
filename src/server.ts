@@ -11,7 +11,17 @@ app.get('/showALLUser', function(req: any, res: any) {
 
 app.get('/showONEUser', function(req: any, res: any) {    
     ServiceU.showONEUser( req.body.user_id, res);
-})
+});
+
+app.get('/show-token',function(req:any,res:any){
+    ServiceU.showToken(req.body.user_id,res);
+});
+
+
+app.get('/checkRole', function(req: any, res: any) { 
+    ServiceU.checkRole(req.body.user_id,res);
+});
+
 
 app.listen(8080);
 //export default app;
