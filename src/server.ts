@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as ServiceU from './services/user-services'
 import * as ServiceA from './services/auction-service'
-
+import * as ServiceE from './services/enter-service'
 const app = express();
 
 app.use(express.json());
@@ -48,6 +48,22 @@ app.get('/closed-auction',function(req:any,res:any){
 
 app.get('/open-auction',function(req:any,res:any){
     ServiceA.openAuction(req.body.user_id ,res);
+});
+
+/*********************************************************
+ *                  ENTER
+ ************************************************************/
+
+app.get('/bet', function(req: any, res: any) {    
+    ServiceE.bet(req.body.user_id, req.body.auction_id, res);
+});
+
+app.get('/show-rilanci', function(req: any, res: any) {    
+    ServiceE.showNRilanci(req.body.user_id, req.body.auction_id, res);
+});
+
+app.post('/bet-close', function(req: any, res: any) {    
+    ServiceE.betClose(req.body.user_id, req.body.auction_id, req.body.bet, res);
 });
 
 app.listen(8080);
