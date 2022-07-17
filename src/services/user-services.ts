@@ -3,6 +3,10 @@ import { User } from '../models/user-model';
 import { Model, Sequelize, where } from 'sequelize';
 import { getConstantValue, isJsxAttribute } from 'typescript';
 import { Json } from 'sequelize/types/utils';
+import { UserNotFoundError, ParamMissingError } from '../shared/errors';
+import { Singleton } from "../connection/Singleton";
+
+const sequelize: Sequelize = Singleton.getConnection();
 
 /**
  * Funzione showALLUser
@@ -24,9 +28,16 @@ export const showALLUser = async(req: any, res: any) => {
  * @param res risposta da parte del sistema
  */
 export function showONEUser(user_id: any, res: any) {
-    User.findAll({where:{user_id: user_id}}).then(arr=>{
+    
+    try{
+        User.findAll({where:{user_id: user_id}}).then(arr=>{
         res.json(arr);
-    });
+        });
+    }
+    catch{ 
+        //res.json("err")
+        throw new ParamMissingError();
+    }
 };
 
 /**
@@ -39,13 +50,13 @@ export function showONEUser(user_id: any, res: any) {
  * @returns 
  */
 export function checkUserExistance ( user_id: string, res: any): void {
-    let result: any
-    User.findByPk(user_id).then( arr => {
-        result = 1;
-    }).catch( error => {
-       result = 0;
-    })
-    return result;
+        let result: any
+        User.findByPk(user_id).then( arr => {
+            result = 1;
+        }).catch( error => {
+        result = 0;
+        })
+        return result;
 };
 
 /**
@@ -129,3 +140,35 @@ export function checkRole(user_id: string, res: any){
     });
     return(result);
 };
+
+
+/**
+ * Funzione checWin
+ * 
+ * Mostra le aste vinte e/o perse di uno specifico user entro un range temporale
+ * @param user_id id dell'utente
+ * @param datestart data di inizio
+ * @param datefinish data di fine
+ * @param res risposta da parte del sistema
+ */
+export function checkWin (user_id: string,  datestart: Date, datefinish:Date,res: any): void {
+    let ar=[]
+        let r: any;
+        let l: any;
+         r =  sequelize.query(
+             "SELECT win, datetimestart,datetimefinish, FKAuction_id FROM (auction JOIN enter ON auction.auction_id = enter.FKauction_id)JOIN user ON user.user_id=enter.FKUser_id WHERE datetimestart>$datestart AND datetimefinish<$datefinish AND user_id=$user_id AND win=1",
+             {bind: {user_id:user_id, datestart:datestart, datefinish:datefinish}
+            }
+           ).then(arr2=>{
+            ar[0]={"Aste vinte": arr2}
+           });
+
+            l =  sequelize.query(
+                "SELECT win, datetimestart,datetimefinish, FKAuction_id FROM (auction JOIN enter ON auction.auction_id = enter.FKauction_id)JOIN user ON user.user_id=enter.FKUser_id WHERE datetimestart>$datestart AND datetimefinish<$datefinish AND user_id=$user_id AND win=0",
+                {bind: {user_id:user_id, datestart:datestart, datefinish:datefinish}}
+              ).then(arr1=>{
+            ar[1]={"Aste perse": arr1}
+             res.json(ar);
+         
+ });
+}

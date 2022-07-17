@@ -1,10 +1,23 @@
 import * as express from 'express';
-import * as ServiceU from './services/user-services'
-import * as ServiceA from './services/auction-service'
-import * as ServiceE from './services/enter-service'
+import * as ServiceU from './services/user-services';
+import * as ServiceA from './services/auction-service';
+import * as ServiceE from './services/enter-service';
+import StatusCodes from 'http-status-codes';
+//import 'express-async-errors';
+import { CustomError } from './shared/errors';
+import { NextFunction, Request, Response } from 'express';
+import logger from 'jet-logger';
+
 const app = express();
 
 app.use(express.json());
+app.use((err: Error | CustomError, _: Request, res: Response, __: NextFunction) => {
+    logger.err(err, true);
+    const status = (err instanceof CustomError ? err.HttpStatus : StatusCodes.BAD_REQUEST);
+    return res.status(status).json({
+        error: err.message,
+    });
+});
 
 /***********************************************************************
                             USER
@@ -24,6 +37,10 @@ app.get('/show-token',function(req:any,res:any){
 
 app.get('/checkRole', function(req: any, res: any) { 
     ServiceU.checkRole(req.body.user_id,res);
+});
+
+app.get('/win', function(req: any, res: any) { 
+    ServiceU.checkWin(req.body.user_id, req.body.datestar, req.body.datefinish, res);
 });
 
 /*********************************************************
