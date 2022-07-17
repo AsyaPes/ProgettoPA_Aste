@@ -1,0 +1,43 @@
+{
+  "name": "ProgettoPA_aste",
+  "version": "1.8.3",
+  "description": "backand di gestione aste",
+  "scripts": {
+    "express-generator-typescript": "node bin/cli.js",
+    "start": "node bin/cli.js"
+  },
+  "main": "lib/cli.js",
+  "bin": {
+    "express-generator-typescript": "bin/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seanpmaxwell/express-generator-typescript.git"
+  },
+  "keywords": [
+    "express",
+    "ex",
+    "generator",
+    "generate",
+    "gen",
+    "typescript",
+    "ts",
+    "types",
+    "typing",
+    "overnight",
+    "overnightjs",
+    "js",
+    "new",
+    "app",
+    "express-ts",
+    "decorators",
+    "decorate",
+    "test",
+    "testing",
+    "routes",
+    "router",
+    "routing"
+  ],
+  "author": "Asya Pesaresi, Natalia Miccini",
+  "license": "MIT"
+}
