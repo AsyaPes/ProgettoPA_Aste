@@ -22,6 +22,5 @@ app.get('/checkRole', function(req: any, res: any) {
     ServiceU.checkRole(req.body.user_id,res);
 });
 
-
 app.listen(8080);
 //export default app;
