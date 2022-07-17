@@ -1,10 +1,10 @@
-import { SequelizeSingleton } from "../singleton/sequelize";
+import { Singleton } from "../connection/Singleton";
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
 /**
  * Instanziazione della connessione verso il RDBMS
  */
-const sequelize: Sequelize = SequelizeSingleton.getConnection();
+const sequelize: Sequelize = Singleton.getConnection();
 export const Enter = sequelize.define('enter', {
     enter_id: {
         type: DataTypes.INTEGER,

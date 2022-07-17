@@ -1,9 +1,9 @@
-import { SequelizeSingleton } from "../singleton/sequelize";
+import { Singleton } from "../connection/Singleton";
 import { DataTypes, Model, Sequelize } from 'sequelize';
 /**
  * Instanziazione della connessione verso il RDBMS
  */
-const sequelize: Sequelize = SequelizeSingleton.getConnection();
+const sequelize: Sequelize = Singleton.getConnection();
 
 /**
  * Definizione dell'ORM attraverso il quale effettuare le query su DB.

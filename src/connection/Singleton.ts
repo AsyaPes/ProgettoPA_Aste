@@ -8,9 +8,9 @@ import { Sequelize } from 'sequelize';
  * ciclo di vita del servizio. L'oggetto è utilizzato per costruire la connessione al database
  * attraverso la libreria {@link Sequelize}.
  */
-export class SequelizeSingleton {
+export class Singleton {
 	
-    private static instance: SequelizeSingleton;
+    private static instance: Singleton;
 	private connection: Sequelize;
 
     private constructor() {
@@ -22,9 +22,9 @@ export class SequelizeSingleton {
 	}
 
 	public static getConnection(): Sequelize {
-        if (!SequelizeSingleton.instance) {
-            this.instance = new SequelizeSingleton();
+        if (!Singleton.instance) {
+            this.instance = new Singleton();
         }
-        return SequelizeSingleton.instance.connection;
+        return Singleton.instance.connection;
     }
 }
