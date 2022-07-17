@@ -6,6 +6,14 @@ import { Singleton } from '../connection/Singleton';
 
 const sequelize: Sequelize = Singleton.getConnection();
 
+/**
+ * Funzione showALLAuction
+ * 
+ * Permette di mostrare tutte le aste 
+ * 
+ * @param req 
+ * @param res 
+ */
 export function showALLAuction(req: any, res: any) {
     Auction.findAll({}).then(arr=>{
         console.log(arr);
@@ -13,12 +21,30 @@ export function showALLAuction(req: any, res: any) {
     });
 };
 
-export function filterAuction(status:number,res:any):void{
-    Auction.findAll({where:{status: status}}).then(arr=>{
+/**
+ * Funzione filterAuction
+ * 
+ * Mostra le aste filtrandole per il loro stato (terminate, attuali, future)
+ * 
+ * @param status stato dell'asta
+ * @param res risposta da parte del sistema
+ */
+export function filterAuction(status: number, res: any): void{
+    Auction.findAll({where: {status: status}}).then(arr=>{
         res.json(arr);
     });
 };
 
+/**
+ * Funzione checkAuctionType
+ * 
+ * Controlla il tipo di asta (Asta aperta, Asta in busta chiusa e pagamento del prezzo più alto,
+ * Asta in busta chiusa e pagamento del secondo prezzo più alto)
+ * 
+ * @param auction_id id dell'asta
+ * @param res risposta da parte del sistema
+ * @returns 
+ */
 export function checkAuctionType ( auction_id: string, res: any): void {
     let type: any
     Auction.findAll({where: {auction_id: auction_id}}).then(arr => {
@@ -39,7 +65,15 @@ export function checkAuctionType ( auction_id: string, res: any): void {
     return type;
 };
 
-export function closedAuction(user_id:string,res:any):void{
+/**
+ * Funzione closedAuction
+ * 
+ * Dato un utente, visualizza lo storico delle aste cui ha partecipato
+ * 
+ * @param user_id id dell'utente
+ * @param res risposta da parte del sistema
+ */
+export function closedAuction(user_id: string, res: any):void{
     User.findAll({where:{user_id: user_id}}).then(arr=>{
         Auction.findAll({where:{ status:1}}).then(arr2=>{
             res.json(arr2);
@@ -47,6 +81,14 @@ export function closedAuction(user_id:string,res:any):void{
     });
 };
 
+/**
+ * Funzione openAuction
+ * 
+ * Dato un utente restituisce la lista delle aste attuali con il relativo numero di rilanci
+ * 
+ * @param user_id  id dell'utente
+ * @param res risposta da parte del sistema
+ */
 export function openAuction(user_id:string,res:any):void  {
     let rilanci: any;
      rilanci =  sequelize.query(
