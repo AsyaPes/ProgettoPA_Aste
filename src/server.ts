@@ -7,7 +7,7 @@ import StatusCodes from 'http-status-codes';
 import { CustomError } from './shared/errors';
 import { NextFunction, Request, Response } from 'express';
 import logger from 'jet-logger';
-import { ParamMissingError } from './shared/errors';
+import * as Middleware from './middleware/middleware'
 
 const app = express();
 
@@ -26,8 +26,11 @@ app.use((err: Error | CustomError, _: Request, res: Response, __: NextFunction) 
 app.get('/showALLUser', function(req: any, res: any) {    
     ServiceU.showALLUser( req, res);
 });
+app.get('/a', function(req: any, res: any) {    
+    ServiceU.checkUser( req, res);
+});
 
-app.get('/showONEUser', function(req: any, res: any) { 
+app.get('/showONEUser', Middleware.show_user, function(req: any, res: any) { 
     ServiceU.showONEUser( req.body.user_id, res);
 });
 
@@ -35,13 +38,8 @@ app.get('/show-token',function(req:any,res:any){
     ServiceU.showToken(req.body.user_id,res);
 });
 
-
-app.get('/checkRole', function(req: any, res: any) { 
-    ServiceU.checkRole(req.body.user_id,res);
-});
-
 app.get('/win', function(req: any, res: any) { 
-    ServiceU.checkWin(req.body.user_id, req.body.datestar, req.body.datefinish, res);
+    ServiceU.Win(req.body.user_id, req.body.datestart, req.body.datefinish, res);
 });
 
 /*********************************************************
