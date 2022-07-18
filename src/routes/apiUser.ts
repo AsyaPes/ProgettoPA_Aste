@@ -24,7 +24,7 @@ apiRouterUser.get('/checkRole', function(req: any, res: any) {
 });
 
 apiRouterUser.get('/win', function(req: any, res: any) { 
-    ServiceU.checkWin(req.body.user_id, req.body.datestart, req.body.datefinish, res);
+    ServiceU.Win(req.body.user_id, req.body.datestart, req.body.datefinish, res);
 });
 
 export default apiRouterUser;
