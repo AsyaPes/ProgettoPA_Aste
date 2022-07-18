@@ -1,24 +1,23 @@
-import { User } from '../models/user-model';
-import { Auction } from '../models/auction-model';
-import { Enter } from '../models/enter-model'
-import { Model, Sequelize, where } from 'sequelize';
-import { Json } from 'sequelize/types/utils';
-import { Singleton } from '../connection/Singleton';
+
+import { Enter } from '../models/enter-model';
+import  {BetProvider} from '../crypto'
+
 
 /**
- * Funzione bet
+ * Funzione Rilancio
  * 
- * Questa funzione permette al giocatore di effettuare una puntata per una specifica Asta Aperta 
+ * Questa funzione permette al giocatore di effettuare una puntata per una specifica Asta Chiusa 
  * 
  * @param user_id id dell'utente
  * @param auction_id id dell'asta
  * @param res risposta da parte del sistema
  */
-export function bet ( user_id: string, auction_id: string, res: any): void {
+export function AddQuote ( user_id: string, auction_id: string, res: any): void {
     Enter.increment({n_rilanci: 1}, {where: {fkuser_id: user_id, fkauction_id: auction_id  }}).then(arr=>{
         res.json(arr);
     });
 };
+
 
 /**
  * Funzione showNRilanci
@@ -46,8 +45,16 @@ export function showNRilanci ( user_id: string, auction_id: string, res: any): v
  * @param bet puntata
  * @param res risposta da parte del sistema
  */
-export function betClose ( user_id: string, auction_id: string, bet: number, res: any): void {
+export function betClose ( user_id: string, auction_id: string, bet: any, res: any): void {
     Enter.update({bet: bet}, {where: {fkuser_id: user_id, fkauction_id: auction_id  }}).then(arr=>{
-        res.json(arr);
+        Enter.findAll({attributes: ['bet'], where: {fkuser_id: user_id, fkauction_id: auction_id}}).then(arr=>{
+            res.json(arr[0]);
+            const betValue=arr[0].getDataValue("bet")
+            const betHashed = this.betProvider.hashBet(
+                betValue,
+              );
+    Enter.update({betHashed: betHashed}, {where: {fkuser_id: user_id, fkauction_id: auction_id  }})
+        });
+   
     });
 };

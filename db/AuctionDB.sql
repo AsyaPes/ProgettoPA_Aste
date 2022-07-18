@@ -17,7 +17,8 @@ CREATE TABLE enter (
   quote int(11),
   n_rilanci int(100) NOT NULL DEFAULT 0,
   win BOOLEAN DEFAULT FALSE,
-  bet bigint (100)
+  bet bigint (100),
+  betHashed bigint (100)
 
 );
 
@@ -62,7 +63,7 @@ INSERT INTO auction (auction_id, title, FKcreator_id, type, datetimestart, datet
   (5,'Container', 'Wos78BnB09', 1, '2022-09-02T20:00:00+01:00', '2022-09-03T20:00:00+01:00', 0),
   (6,'NFT', 'Wos78BnB09', 3, '2022-08-15T22:00:00+01:00', '2022-08-24T22:00:00+01:00', 0);
 
-INSERT INTO enter (enter_id, FKauction_id, FKuser_id, min_price, quote,n_rilanci,win,bet) VALUES
+INSERT INTO enter (enter_id, FKauction_id, FKuser_id, min_price, quote,n_rilanci,win,bet,betHashed) VALUES
   ('ak3',1, "4p0KF0xkOi", 20, 10,0,FALSE,NULL),
   ('b2q',2, "4p0KF0xkOi", NULL, NULL,1,TRUE,100),
   ('n8p',3, "4p0KF0xkOi", NULL, NULL,1,FALSE,0),

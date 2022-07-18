@@ -4,10 +4,10 @@ services:
         image: mysql
         restart: always
         environment:
-          - MYSQL_ROOT_PASSWORD=$ROOT_PASSWORD
-          - MYSQL_DATABASE=$DATABASE
-          - MYSQL_USER=$USER
-          - MYSQL_PASSWORD=$PASSWORD
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_DATABASE=AuctionDB
+          - MYSQL_USER=user
+          - MYSQL_PASSWORD=root
         ports:
           - 3000:3306
         volumes:
@@ -23,12 +23,12 @@ services:
           - 8080:8080
         environment:
           - KEY=$KEY
-          - MYSQL_ROOT_PASSWORD=$ROOT_PASSWORD
-          - MYSQL_DATABASE=$DATABASE
-          - MYSQL_HOST=$HOST
-          - MYSQL_PORT=$PORT
-          - MYSQL_USER=$USER
-          - MYSQL_PASSWORD=$PASSWORD
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_DATABASE=AuctionDB
+          - MYSQL_HOST=dbmysql
+          - MYSQL_PORT=3306
+          - MYSQL_USER=user
+          - MYSQL_PASSWORD=root
         env_file:
           - .env
         depends_on:

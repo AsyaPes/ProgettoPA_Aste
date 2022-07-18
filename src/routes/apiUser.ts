@@ -11,7 +11,7 @@ apiRouterUser.use(authJwt.logErrors);
 apiRouterUser.use(authJwt.errorHandler);  
 
 /***********************************************************************
-                            USER
+                               USER
 ***********************************************************************/
 
 apiRouterUser.get('/showALLUser', function(req: any, res: any) {    

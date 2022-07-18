@@ -5,19 +5,19 @@ import authJwt from '../auth/auth-jwt';
 
 const apiRouterEnter= Router();
 
-apiRouterEnter.use(authJwt.checkHeader);                
+/*apiRouterEnter.use(authJwt.checkHeader);                
 apiRouterEnter.use(authJwt.checkPayloadHeader); 
 apiRouterEnter.use(authJwt.checkToken);                     
 apiRouterEnter.use(authJwt.verifyKey);                      
 apiRouterEnter.use(authJwt.logErrors);                      
 apiRouterEnter.use(authJwt.errorHandler);  
-
+*/
 /*********************************************************
  *                  ENTER
  ************************************************************/
 
- apiRouterEnter.get('/bet', function(req: any, res: any) {    
-    ServiceE.bet(req.body.user_id, req.body.auction_id, res);
+ apiRouterEnter.get('/quote', function(req: any, res: any) {    
+    ServiceE.AddQuote(req.body.user_id, req.body.auction_id, res);
 });
 
 apiRouterEnter.get('/show-rilanci', function(req: any, res: any) {    
