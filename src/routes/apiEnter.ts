@@ -1,8 +1,16 @@
 import * as ServiceE from '../services/enter-service';
 import { Router } from 'express';
+import authJwt from '../auth/auth-jwt';
 
 
 const apiRouterEnter= Router();
+
+apiRouterEnter.use(authJwt.checkHeader);                
+apiRouterEnter.use(authJwt.checkPayloadHeader); 
+apiRouterEnter.use(authJwt.checkToken);                     
+apiRouterEnter.use(authJwt.verifyKey);                      
+apiRouterEnter.use(authJwt.logErrors);                      
+apiRouterEnter.use(authJwt.errorHandler);  
 
 /*********************************************************
  *                  ENTER

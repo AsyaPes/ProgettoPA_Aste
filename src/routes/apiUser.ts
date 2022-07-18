@@ -1,7 +1,15 @@
 import * as ServiceU from '../services/user-services';
 import { Router } from 'express';
+import authJwt from '../auth/auth-jwt';
+
 const apiRouterUser = Router();
 
+apiRouterUser.use(authJwt.checkHeader);                
+apiRouterUser.use(authJwt.checkPayloadHeader); 
+apiRouterUser.use(authJwt.checkToken);                     
+apiRouterUser.use(authJwt.verifyKey);                      
+apiRouterUser.use(authJwt.logErrors);                      
+apiRouterUser.use(authJwt.errorHandler);  
 
 /***********************************************************************
                             USER

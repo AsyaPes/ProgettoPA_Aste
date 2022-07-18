@@ -1,9 +1,17 @@
 
 import * as ServiceA from '../services/auction-service';
 import { Router } from 'express';
+import authJwt from '../auth/auth-jwt';
 
 
 const apiRouterAuction= Router();
+
+apiRouterAuction.use(authJwt.checkHeader);                
+apiRouterAuction.use(authJwt.checkPayloadHeader); 
+apiRouterAuction.use(authJwt.checkToken);                     
+apiRouterAuction.use(authJwt.verifyKey);                      
+apiRouterAuction.use(authJwt.logErrors);                      
+apiRouterAuction.use(authJwt.errorHandler);        
 
 /*********************************************************
  *                      AUCTION
