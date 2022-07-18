@@ -12,7 +12,7 @@ import  {BetProvider} from '../crypto'
  * @param auction_id id dell'asta
  * @param res risposta da parte del sistema
  */
-export function AddQuote ( user_id: string, auction_id: string, res: any): void {
+export function bet ( user_id: string, auction_id: string, res: any): void {
     Enter.increment({n_rilanci: 1}, {where: {fkuser_id: user_id, fkauction_id: auction_id  }}).then(arr=>{
         res.json(arr);
     });
