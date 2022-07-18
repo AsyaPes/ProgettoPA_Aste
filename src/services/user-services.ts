@@ -40,48 +40,6 @@ export function showONEUser(user_id: any, res: any) {
 
 
 /**
- * Funzione checkUserExistance
- * 
- * Permette di verificare l'esistenza di un utente a partire dal suo id
- * 
- * @param user_id id dell'utente
- * @param res risposta da parte del sistema
- * @returns 
- */
-export function checkUserExistance ( user_id: string, res: any): void {
-        let result: any
-        User.findByPk(user_id).then( arr => {
-            result = 1;
-        }).catch( error => {
-        result = 0;
-        })
-        return result;
-};
-
-/**
- * Funzione checkToken  
- * 
- * Controlla che l'utente abbia token sufficienti per effettuare la puntata
- * 
- * @param user_id id dell'utente
- * @param bet puntata
- * @param res risposta da parte del sistema
- */
-export function checkToken ( user_id: string, bet: number, res: any): void {
-    let result: any
-    User.findAll({where: {user_id: user_id}}).then( arr => {
-        if ((arr[0].getDataValue("token"))>bet){
-            result = 1;
-            res.json(result)
-        }
-        else {
-            result = 0
-            res.send("error")
-        }
-    });
-};
-
-/**
  * Funzione chargingAdmin
  * 
  * Consente di ricaricare il credito di un utenda da parte dell'utente Admin
@@ -112,45 +70,16 @@ export function showToken(user_id:string,res:any){
 };
 
 /**
- * Funzione checkRole
- * 
- * Controlla il ruolo di un utente
- * @param user_id id dell'utente
- * @param res risposta da parte del sistema
- * @returns 
- */
-export function checkRole(user_id: string, res: any){
-    let result
-    User.findAll({where:{user_id:user_id}}).then(arr=>{
-        const role=(arr[0].getDataValue("role"))
-        const bip="bip_creator";
-        const par="bip_partecipant";
-        const admin="admin";
-            if (role===par){
-                result=0;
-                res.json(role);
-            }else if(role===bip){
-                result=1;
-                res.json(role);
-            }else if(role==admin){
-                result=2;
-                res.json(role);
-            }
-    });
-    return(result);
-};
-
-
-/**
  * Funzione checWin
  * 
  * Mostra le aste vinte e/o perse di uno specifico user entro un range temporale
+ * 
  * @param user_id id dell'utente
  * @param datestart data di inizio
  * @param datefinish data di fine
  * @param res risposta da parte del sistema
  */
-export function checkWin (user_id: string,  datestart: Date, datefinish:Date,res: any): void {
+export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any): void {
     let ar=[]
         let r: any;
         let l: any;
@@ -170,4 +99,75 @@ export function checkWin (user_id: string,  datestart: Date, datefinish:Date,res
              res.json(ar);
          
  });
-}
+};
+
+/**
+ * Funzione checkUserExistance
+ * 
+ * Permette di verificare l'esistenza di un utente a partire dal suo id
+ * 
+ * @param user_id id dell'utente
+ * @param res risposta da parte del sistema
+ * @returns 
+ */
+ export function checkUser ( user_id: string, res: any): Promise<boolean> {
+    let result: any
+    User.findByPk(user_id).then( arr => {
+        result = true;
+        if(result){
+        res.json(arr)}
+    }).catch( error => {
+        result = false;
+    })
+    
+    return result;
+};
+
+/**
+ * Funzione checkToken  
+ * 
+ * Controlla che l'utente abbia token sufficienti per effettuare la puntata
+ * 
+ * @param user_id id dell'utente
+ * @param bet puntata
+ * @param res risposta da parte del sistema
+ */
+export function checkToken ( user_id: string, bet: number, res: any): Promise<number> {
+    let result: any
+    User.findAll({where: {user_id: user_id}}).then( arr => {
+        if ((arr[0].getDataValue("token"))>bet){
+            result = 1;
+        }
+        else {
+            result = 0
+        }
+    });
+    return result;
+};
+
+
+/**
+ * Funzione checkRole
+ * 
+ * Controlla il ruolo di un utente
+ * @param user_id id dell'utente
+ * @param res risposta da parte del sistema
+ * @returns 
+ */
+ export function checkRole(user_id: string, res: any): Promise<number>{
+    let result
+    User.findAll({where:{user_id:user_id}}).then(arr=>{
+        const role=(arr[0].getDataValue("role"))
+        const bip="bip_creator";
+        const par="bip_partecipant";
+        const admin="admin";
+            if (role===par){
+                result=0;
+            }else if(role===bip){
+                result=1;
+            }else if(role==admin){
+                result=2;
+            }
+    });
+    return(result);
+};
