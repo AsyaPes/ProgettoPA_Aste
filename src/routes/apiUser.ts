@@ -1,7 +1,6 @@
 import * as ServiceU from '../services/user-services';
 import { Router } from 'express';
 import authJwt from '../auth/auth-jwt';
-
 const apiRouterUser = Router();
 
 apiRouterUser.use(authJwt.checkHeader);                
@@ -14,6 +13,7 @@ apiRouterUser.use(authJwt.errorHandler);
 /***********************************************************************
                             USER
 ***********************************************************************/
+
 apiRouterUser.get('/showALLUser', function(req: any, res: any) {    
     ServiceU.showALLUser( req, res);
 });

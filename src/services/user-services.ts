@@ -112,14 +112,10 @@ export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any
  */
  export function checkUser ( user_id: string, res: any): Promise<boolean> {
     let result: any
+    result =false
     User.findByPk(user_id).then( arr => {
-        result = true;
-        if(result){
-        res.json(arr)}
-    }).catch( error => {
-        result = false;
-    })
-    
+        (this.lenght!=0)? result = true: result = false
+    });
     return result;
 };
 
@@ -132,14 +128,14 @@ export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any
  * @param bet puntata
  * @param res risposta da parte del sistema
  */
-export function checkToken ( user_id: string, bet: number, res: any): Promise<number> {
+export function checkToken ( user_id: string, bet: number, res: any): Promise<boolean> {
     let result: any
     User.findAll({where: {user_id: user_id}}).then( arr => {
         if ((arr[0].getDataValue("token"))>bet){
-            result = 1;
+            result=true;
         }
         else {
-            result = 0
+            result = false;
         }
     });
     return result;

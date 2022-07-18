@@ -10,8 +10,6 @@ import apiRouterUser from './routes/apiUser';
 import apiRouterAuction from './routes/apiAuction';
 import apiRouterEnter from './routes/apiEnter';
 
-import * as Middleware from './middleware/middleware'
-
 logger.info(process.env.KEY);
 const app = express();
 
