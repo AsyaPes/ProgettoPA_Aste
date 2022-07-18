@@ -84,7 +84,7 @@ export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any
         let r: any;
         let l: any;
          r =  sequelize.query(
-             "SELECT win, datetimestart,datetimefinish, FKAuction_id FROM (auction JOIN enter ON auction.auction_id = enter.FKauction_id)JOIN user ON user.user_id=enter.FKUser_id WHERE datetimestart>$datestart AND datetimefinish<$datefinish AND user_id=$user_id AND win=1",
+             "SELECT win, datetimestart,datetimefinish, FKAuction_id FROM (auction JOIN enter ON auction.auction_id = enter.FKauction_id)JOIN user ON user.user_id=enter.FKUser_id WHERE datetimestart>$datestart AND datetimefinish<$datefinish AND user_id=$user_id AND win=1 AND status=1",
              {bind: {user_id:user_id, datestart:datestart, datefinish:datefinish}
             }
            ).then(arr2=>{
@@ -92,7 +92,7 @@ export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any
            });
 
             l =  sequelize.query(
-                "SELECT win, datetimestart,datetimefinish, FKAuction_id FROM (auction JOIN enter ON auction.auction_id = enter.FKauction_id)JOIN user ON user.user_id=enter.FKUser_id WHERE datetimestart>$datestart AND datetimefinish<$datefinish AND user_id=$user_id AND win=0",
+                "SELECT win, datetimestart,datetimefinish, FKAuction_id FROM (auction JOIN enter ON auction.auction_id = enter.FKauction_id)JOIN user ON user.user_id=enter.FKUser_id WHERE datetimestart>$datestart AND datetimefinish<$datefinish AND user_id=$user_id AND win=0 AND status=1",
                 {bind: {user_id:user_id, datestart:datestart, datefinish:datefinish}}
               ).then(arr1=>{
             ar[1]={"Aste perse": arr1}
@@ -116,7 +116,7 @@ export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any
     User.findByPk(user_id).then( arr => {
         (this.lenght!=0)? result = true: result = false
     });
-    return result;
+    return Promise.resolve(result);
 };
 
 /**
@@ -138,7 +138,7 @@ export function checkToken ( user_id: string, bet: number, res: any): Promise<bo
             result = false;
         }
     });
-    return result;
+    return Promise.resolve(result);
 };
 
 
@@ -165,5 +165,5 @@ export function checkToken ( user_id: string, bet: number, res: any): Promise<bo
                 result=2;
             }
     });
-    return(result);
+    return Promise.resolve(result);
 };
