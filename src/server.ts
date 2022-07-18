@@ -43,8 +43,11 @@ app.get('/win', function(req: any, res: any) {
 });
 
 /*********************************************************
- *                  AUCTION
+ *                      AUCTION
  ************************************************************/
+ app.post('/create-auction',function (req: any, res: any) {    
+    ServiceA.createAuction(req.body.auction_id,req.body.title,req.body.fkcreator_id,req.body.type,req.body.datetimestart,req.body.datetimefinish,req.body.status,res);
+ });
 
 app.get('/filter-auction',function(req:any,res:any){
     ServiceA.filterAuction(req.body.status,res);
