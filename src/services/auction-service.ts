@@ -5,6 +5,19 @@ import { Json } from 'sequelize/types/utils';
 import { Singleton } from '../connection/Singleton';
 
 const sequelize: Sequelize = Singleton.getConnection();
+/**
+ * Funzione createAuction
+ * 
+ * Permette di creare una nuova auction
+ * 
+ * @param auction 
+ * @param res 
+ */
+export function createAuction(auction_id:number,title:string,fkcreator_id:string,type:number,datetimestart:string,datetimefinish:string,status:number,res:any){
+    Auction.create({auction_id:auction_id,title:title,fkcreator_id:fkcreator_id,type:type,datetimestart:datetimestart,datetimefinish:datetimefinish,status:status}).then((arr)=>{
+    res.json({arr});
+         })
+}
 
 /**
  * Funzione showALLAuction

@@ -41,12 +41,15 @@ app.get('/checkRole', function(req: any, res: any) {
 });
 
 app.get('/win', function(req: any, res: any) { 
-    ServiceU.checkWin(req.body.user_id, req.body.datestar, req.body.datefinish, res);
+    ServiceU.checkWin(req.body.user_id, req.body.datestart, req.body.datefinish, res);
 });
 
 /*********************************************************
- *                  AUCTION
+ *                      AUCTION
  ************************************************************/
+ app.post('/create-auction',function (req: any, res: any) {    
+    ServiceA.createAuction(req.body.auction_id,req.body.title,req.body.fkcreator_id,req.body.type,req.body.datetimestart,req.body.datetimefinish,req.body.status,res);
+ });
 
 app.get('/filter-auction',function(req:any,res:any){
     ServiceA.filterAuction(req.body.status,res);
