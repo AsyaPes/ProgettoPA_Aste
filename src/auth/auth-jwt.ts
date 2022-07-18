@@ -62,6 +62,7 @@ function checkToken(req: any, res: Response, next: NextFunction) {
  export function verifyKey(req: any, res: any, next: any): void{
     try {
         const decoded: string | jwt.JwtPayload  = jwt.verify(req.token, process.env.KEY);
+        logger.info(process.env.KEY);
         if (decoded != null) {
             req.body = decoded;
             next();
