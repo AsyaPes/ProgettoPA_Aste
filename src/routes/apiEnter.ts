@@ -1,30 +1,24 @@
 import * as ServiceE from '../services/enter-service';
 import { Router } from 'express';
-import authJwt from '../auth/auth-jwt';
+import * as middleware from '../auth/middleware';
 
 
 const apiRouterEnter= Router();
 
-/*apiRouterEnter.use(authJwt.checkHeader);                
-apiRouterEnter.use(authJwt.checkPayloadHeader); 
-apiRouterEnter.use(authJwt.checkToken);                     
-apiRouterEnter.use(authJwt.verifyKey);                      
-apiRouterEnter.use(authJwt.logErrors);                      
-apiRouterEnter.use(authJwt.errorHandler);  
-*/
 /*********************************************************
  *                  ENTER
  ************************************************************/
 
- apiRouterEnter.get('/quote', function(req: any, res: any) {    
-    ServiceE.AddQuote(req.body.user_id, req.body.auction_id, res);
+ apiRouterEnter.get('/bet', middleware.authjwt, middleware.Existance, middleware.partecipant, middleware.check, function(req: any, res: any) {    
+    ServiceE.bet(req.body.user_id, req.body.auction_id, res);
 });
 
+//controllare
 apiRouterEnter.get('/show-rilanci', function(req: any, res: any) {    
     ServiceE.showNRilanci(req.body.user_id, req.body.auction_id, res);
 });
 
-apiRouterEnter.post('/bet-close', function(req: any, res: any) {    
+apiRouterEnter.post('/bet-close', middleware.authjwt, middleware.Existance, middleware.partecipant, middleware.check,function(req: any, res: any) {    
     ServiceE.betClose(req.body.user_id, req.body.auction_id, req.body.bet, res);
 });
 

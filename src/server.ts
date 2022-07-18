@@ -41,9 +41,11 @@ app.use((err: Error | CustomError, _: Request, res: Response, __: NextFunction) 
 
 app.use('/api-user', apiRouterUser);
 app.use('/api-auction', apiRouterAuction);
+
 app.use('/api-enter',apiRouterEnter);
 
 server.listen(8080 ,()=> console.log("Listening on port 8080"))
+
 
 //app.listen(8080);
 //export default app;
