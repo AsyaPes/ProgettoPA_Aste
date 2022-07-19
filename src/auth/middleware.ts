@@ -36,7 +36,8 @@ export const partecipant = [
 ];
 
 export const creator = [
-    mid.checkBipCreator
+    mid.checkCreatorExistence,
+    mid.checkBipCreator2
 ];
 
 export const admin = [

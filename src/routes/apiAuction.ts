@@ -8,9 +8,9 @@ const apiRouterAuction= Router();
  *                      AUCTION
  ************************************************************/
 
- apiRouterAuction.post('/create-auction', middleware.authjwt, middleware.UserExistance, middleware.creator, function (req: any, res: any) {    
+apiRouterAuction.post('/create-auction', middleware.authjwt, middleware.creator, function (req: any, res: any) {    
     ServiceA.createAuction(req.body.auction_id,req.body.title,req.body.fkcreator_id,req.body.type,req.body.datetimestart,req.body.datetimefinish,req.body.status,res);
- });
+});
 
 apiRouterAuction.get('/filter-auction', function(req:any,res:any){
     ServiceA.filterAuction(req.body.status,res);

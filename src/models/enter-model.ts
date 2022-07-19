@@ -26,7 +26,7 @@ export const Enter = sequelize.define('enter', {
         allowNull: false
     },
     win:{
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.NUMBER,
         allowNull: false
     },
     betHashed:{

@@ -68,6 +68,7 @@ INSERT INTO enter (enter_id, FKauction_id, FKuser_id, min_price, quote,n_rilanci
   ('ak3',1, "4p0KF0xkOi", 20, 10,0,FALSE,NULL),
   ('b2q',2, "4p0KF0xkOi", NULL, NULL,1,TRUE,100),
   ('S7g',2, "2Zbo_lX4d5", NULL, NULL,1,FALSE,100),
+  ('n9p',2, "4p0KF0xkOi", NULL, NULL,1,FALSE,100),
   ('n8p',3, "4p0KF0xkOi", NULL, NULL,1,FALSE,0),
   ('i7u',3, "2Zbo_lX4d5", NULL, NULL,1,FALSE,0),
   ('h5k',4, "4p0KF0xkOi", 30, 20,2,FALSE,NULL),
