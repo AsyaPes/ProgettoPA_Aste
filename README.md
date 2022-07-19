@@ -82,7 +82,91 @@ In particolare, le richieste possibili da effettuare sulla porta 8080 sono le se
 |GET             |/api-auction/show-all-auction     |NO|
 |GET             |/api-auction/closed-auction       |NO|
 |GET             |/api-auction/open-auction         |NO|
-|POST            |/api-enter/bet-close              |SI|
+|POST            |/api-enter/bet                    |SI|
 |GET             |/api-enter/show-rilanci           |SI|
-|GET             |/api-enter/bet-close              |SI|
+|POST            |/api-enter/bet-close              |SI|
+
+**Creare un'asta /api-auction/create-auction**
+Tramite questa richiesta è possibile creare una nuova asta e specificarne i parametri. 
+~~~
+Da effettuare richiesta HTTP con Content-Type:'application/json' nell'header e payload JSON con la seguente struttura:
+{
+    "auction_id": 10,
+    "title": "Asta immobiliare",
+    "fkcreator_id": "T06x323aWb",
+    "type": 3,
+    "datetimestart": "2023-01-07T09:00:00+01:00",
+    "datetimefinish": "2023-01-10T09:00:00+01:00",
+    "status": 0
+}
+~~~
+
+
+Lo status di un'asta può essere:
+* 0: Futura, non ancora aperta
+* 1: Terminate
+* 2: Attuali, non ancora terminate
+Mentre il type può essere:
+* 1: Asta inglese aperta
+* 2: Asta in busta chiusa e pagamento del prezzo più alto
+* 3: Asta in busta chiusa e pagamento del secondo prezzo più alto
+
+**Filtrare asta /api-auction/filter-auction**
+Tramite questa richiesta è possibile visualizzare l’elenco delle aste filtrando per lo status. 
+~~~
+Da effettuare richiesta HTTP con Content-Type:'application/json' nell'header e payload JSON con la seguente struttura:
+{
+  "status": 0
+}
+~~~
+
+**Visualizzare lo storico delle aste /api-auction/closed-auction**
+Tramite questa richiesta è possibile visualizzare lo storico delle aste alle quali si è partecipato.
+~~~
+Da effettuare richiesta HTTP con Content-Type:'application/json' nell'header e payload JSON con la seguente struttura:
+{
+  "user_id": "4p0KF0xkOi"
+}
+~~~
+
+**Visualizzare le aste attuali /api-auction/open-auction**
+Tramite questa richiesta è possibile visualizzare lo storico delle aste alle quali si sta partecipando listando tutti gli eventuali rilanci.
+~~~
+Da effettuare richiesta HTTP con Content-Type:'application/json' nell'header e payload JSON con la seguente struttura:
+{
+  "user_id": "4p0KF0xkOi"
+}
+~~~
+
+**Visualizzare token /api-user/show-token**
+Tramite questa richiesta si da la possibilità all’utente di verificare il proprio credito residuo.
+~~~
+Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
+{
+  "user_id": "4p0KF0xkOi"
+}
+~~~
+
+**Ricaricare un utente /api-user/charging**
+Tramite questa richiesta si consente ad un utente admin di ricaricare un dato utente. 
+~~~
+Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
+{
+  "user_id": "4p0KF0xkOi",
+  "token": 500
+}
+~~~
+In token si specifica la quantità di token da caricare nel portafoglio dell'utente.
+
+**crea un'offerta per un'asta in busta aperta /api-enter/bet**
+~~~
+Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
+{
+  "user_id": "4p0KF0xkOi",
+  "auction_id": 2,
+  "token": 500
+}
+~~~
+**crea un'offerta per un'asta in busta chiusa /api-enter/betClose
+### Aste vinte e non
 
