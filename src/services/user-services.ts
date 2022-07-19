@@ -6,6 +6,16 @@ import { Singleton } from "../connection/Singleton";
 import { SuccessEnum, getObj } from '../factory/Success';
 
 const sequelize: Sequelize = Singleton.getConnection();
+/**
+ * Funzione DecreaseToken
+ * 
+ * Aggiorna ill wallet dell'utente
+ */
+export  function DecreaseToken ( user_id: any, auction_id:any, bet:any ) : void{
+    User.decrement({token: bet}, {where: {fkuser_id: user_id, fkauction_id: auction_id  }}).then(arr=>{
+        console.log("Ha puntato "+ bet);
+         });
+};
 
 /**
  * Funzione showALLUser

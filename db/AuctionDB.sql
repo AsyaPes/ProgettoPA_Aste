@@ -61,7 +61,8 @@ INSERT INTO auction (auction_id, title, FKcreator_id, type, datetimestart, datet
   (3,'Immobiliare', 'T06x323aWb', 3, '2022-11-07T21:00:00+01:00', '2022-11-07T22:00:00+01:00', 0),
   (4,'Immobili enti ecclesiastici', 'Wos78BnB09', 1, '2022-07-05T15:00:00+01:00', '2022-08-05T15:00:00+01:00', 2),
   (5,'Container', 'Wos78BnB09', 1, '2022-09-02T20:00:00+01:00', '2022-09-03T20:00:00+01:00', 0),
-  (6,'NFT', 'Wos78BnB09', 3, '2022-08-15T22:00:00+01:00', '2022-08-24T22:00:00+01:00', 0);
+  (6,'NFT', 'Wos78BnB09', 3, '2022-08-15T22:00:00+01:00', '2022-08-24T22:00:00+01:00', 0),
+  (7,'Equina', 'Wos78BnB09', 2, '2022-08-15T22:00:00+01:00', '2022-08-24T22:00:00+01:00', 2);
 
 INSERT INTO enter (enter_id, FKauction_id, FKuser_id, min_price, quote,n_rilanci,win,bet) VALUES
   ('ak3',1, "4p0KF0xkOi", 20, 10,0,FALSE,NULL),
@@ -71,7 +72,10 @@ INSERT INTO enter (enter_id, FKauction_id, FKuser_id, min_price, quote,n_rilanci
   ('n8p',3, "4p0KF0xkOi", NULL, NULL,1,FALSE,0),
   ('i7u',3, "2Zbo_lX4d5", NULL, NULL,1,FALSE,0),
   ('h5k',4, "4p0KF0xkOi", 30, 20,2,FALSE,NULL),
+  ('e5k',4, "4p0KF0xkOi", 30, 20,2,FALSE,NULL),
   ('px2',4, "2Zbo_lX4d5", 30, 20,3,FALSE,NULL),
   ('g6q',5, "2Zbo_lX4d5", 50, 20,0,FALSE,NULL),
   ('1h3',6, "2Zbo_lX4d5", NULL, NULL,1,FALSE,0),
-  ('a3e',6, "4p0KF0xkOi", NULL, NULL,1,FALSE,0);
+  ('a3e',6, "4p0KF0xkOi", NULL, NULL,1,FALSE,0),
+  ('h51',7, "4p0KF0xkOi", NULL, NULL,1,FALSE,NULL),
+  ('e52',7, "2Zbo_lX4d5", NULL, NULL,1,FALSE,NULL);
