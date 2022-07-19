@@ -1,7 +1,54 @@
 
 import { Enter } from '../models/enter-model';
-import  {BetProvider} from '../crypto'
+import { Model, QueryTypes, Sequelize, where } from 'sequelize';
+import { Singleton } from '../connection/Singleton';
+const sequelize: Sequelize = Singleton.getConnection();
 
+/** funzione SetWin
+ * Permette di aggiornare il campo win al vincitore dell'asta
+ * 
+ * @param user_id 
+ * @param auction_id 
+ */
+export function SetWin ( user_id: any, auction_id: string): void {
+    Enter.update({win: 1}, {where: {fkuser_id: user_id, fkauction_id: auction_id  }}).then(arr=>{
+   console.log("Ha vinto "+ user_id);
+    });
+};
+
+/** Funzione SetBet
+ * 
+ * Permette di aggiornare il campo bet dopo l'offerta
+ * 
+ * @param user_id 
+ * @param auction_id 
+ * @param bet 
+ */
+export function SetBet ( user_id: string, auction_id: string, bet:number): void {
+    Enter.update({bet: bet}, {where: {fkuser_id: user_id, fkauction_id: auction_id  }}).then(arr=>{
+   console.log("Ha puntato "+ bet);
+    });
+};
+
+/**Funzione GetWinner
+ * 
+ * Permette di trovare il partecipante che ha fatto la bet più elevata
+ * 
+ * @param auction_id 
+ * @returns 
+ */
+export async function GetWinner( auction_id: string) {
+    
+    let result= await sequelize.query(
+         "SELECT fkauction_id, email,enter.bet , user_id FROM enter JOIN user ON enter.fkuser_id=user.user_id WHERE fkauction_id="+auction_id,
+         {raw:true,
+         type:QueryTypes.SELECT}
+    
+     ) 
+     const bets=result.map(item=>(item as any).bet)
+     const max=Math.max(...bets)
+     return result.filter(item=>(item as any).bet>=max)[0]
+};
 
 /**
  * Funzione Rilancio

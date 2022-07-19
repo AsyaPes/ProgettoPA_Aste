@@ -58,9 +58,9 @@ export function filterAuction(status: number, res: any): void{
  * @param res risposta da parte del sistema
  * @returns 
  */
-export function checkAuctionType ( auction_id: string, res: any): Promise<number> {
+export async function checkAuctionType ( auction_id: string, res: any): Promise<number> {
     let type: any
-    Auction.findAll({where: {auction_id: auction_id}}).then(arr => {
+    await Auction.findAll({where: {auction_id: auction_id}}).then(arr => {
         if (arr[0].getDataValue("type")==1) {
             type = 1
         }
@@ -71,7 +71,7 @@ export function checkAuctionType ( auction_id: string, res: any): Promise<number
             type=3;
         }
     });
-    return Promise.resolve(type);
+    return type;
 };
 
 
