@@ -86,9 +86,9 @@ export async function checkAuctionType ( auction_id: string, res: any): Promise<
  * @param res risposta da parte del sistema
  * @returns 
  */
- export function checkAuctionStatus ( auction_id: string, res: any): Promise<number> {
+ export async function checkAuctionStatus ( auction_id: string, res: any): Promise<number> {
     let type: any
-    Auction.findAll({where: {auction_id: auction_id}}).then(arr => {
+    await Auction.findAll({where: {auction_id: auction_id}}).then(arr => {
         if (arr[0].getDataValue("status")==0) {
             type = 0
         }
@@ -99,7 +99,7 @@ export async function checkAuctionType ( auction_id: string, res: any): Promise<
             type=2;
         }
     });
-    return Promise.resolve(type);
+    return type;
 };
 
 /**
@@ -145,13 +145,13 @@ export function openAuction(user_id:string, res:any):void  {
  * @param res risposta da parte del sistema
  * @returns 
  */
- export function checkAuctionExistance ( auction_id: string, res: any): Promise<boolean> {
+ export async function checkAuctionExistance ( auction_id: string, res: any): Promise<boolean> {
     let result: any
     result =false
-    Auction.findByPk(auction_id).then( arr => {
+    await Auction.findByPk(auction_id).then( arr => {
         (this.lenght!=0)? result = true: result = false
     });
-    return Promise.resolve(result);
+    return result;
 };
 
 

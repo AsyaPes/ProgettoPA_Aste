@@ -67,7 +67,7 @@ export function chargingAdmin ( user_id: string, user: string, token: number, re
 
 /**
  * Funzione showToken
- * 
+ * s
  * Permetto all'utente di visualizzare il proprio portafoglio
  * 
  * @param user_id id dell'utente

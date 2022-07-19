@@ -29,8 +29,8 @@ export const Enter = sequelize.define('enter', {
         type: DataTypes.NUMBER,
         allowNull: false
     },
-    betHashed:{
-        type: DataTypes.BOOLEAN,
+    fkauction_id:{
+        type: DataTypes.INTEGER,
         allowNull: false
     }
 }, {
@@ -38,3 +38,4 @@ export const Enter = sequelize.define('enter', {
     timestamps: false,
     freezeTableName: true
 });
+

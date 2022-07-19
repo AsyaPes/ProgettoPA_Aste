@@ -28,7 +28,7 @@ apiRouterUser.get('/winNoData', middleware.authjwt, middleware.UserExistance, mi
     ServiceU.WinNOData(req.body.user_id,res);
 });
 
-apiRouterUser.get('/charging', middleware.authjwt, middleware.UserExistance, middleware.admin, function(req: any, res: any) { 
+apiRouterUser.post('/charging', middleware.authjwt, middleware.UserExistance, middleware.admin, function(req: any, res: any) { 
     ServiceU.chargingAdmin(req.body.user_id, req.body.user, req.body.token, res);
 });
 
