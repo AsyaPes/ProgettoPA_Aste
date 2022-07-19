@@ -4,7 +4,13 @@ import { resolveTripleslashReference } from 'typescript';
 
 function checkUserExistence(req: any, res: any, next: any) {
     ServiceU.checkUser(req.body.user_id, res).then((check) => {
-    (check) ? next() : res.status(500).json({"error": "User not found"});
+    (check ) ? next() : res.status(500).json({"error": "User not found"});
+    });
+};
+
+function checkCreatorExistence(req: any, res: any, next: any) {
+    ServiceU.checkCrator(req.body.fkcreator_id, res).then((check) => {
+    (check ) ? next() : res.status(500).json({"error": "User not found"});
     });
 };
 
@@ -28,6 +34,12 @@ function checkAdmin(req: any, res: any, next: any) : void {
 
 function checkBipCreator(req: any, res: any, next: any) : void {
     ServiceU.checkRole(req.body.user_id, res).then((role) => {
+    (role == 1) ? next() : res.status(500).json({"error": "User not bip creator"});
+    });
+};
+
+function checkBipCreator2(req: any, res: any, next: any) : void {
+    ServiceU.checkRole2(req.body.fkcreator_id, res).then((role) => {
     (role == 1) ? next() : res.status(500).json({"error": "User not bip creator"});
     });
 };
@@ -76,10 +88,12 @@ function checkAuctionFuture(req: any, res: any, next: any) : void {
 
 export default {
     checkUserExistence,
+    checkCreatorExistence,
     checkAuctionExistence,
     checkToken,
     checkAdmin,
     checkBipCreator,
+    checkBipCreator2,
     checkBipPartecipant,
     checkEnglishAuction,
     checkBidAuction,

@@ -24,8 +24,12 @@ apiRouterUser.get('/win', middleware.authjwt, middleware.UserExistance, middlewa
     ServiceU.Win(req.body.user_id, req.body.datestart, req.body.datefinish, res);
 });
 
+apiRouterUser.get('/winNoData', middleware.authjwt, middleware.UserExistance, middleware.partecipant, function(req: any, res: any) { 
+    ServiceU.WinNOData(req.body.user_id,res);
+});
+
 apiRouterUser.get('/charging', middleware.authjwt, middleware.UserExistance, middleware.admin, function(req: any, res: any) { 
-    ServiceU.chargingAdmin(req.body.user_id, req.body.token, res);
+    ServiceU.chargingAdmin(req.body.user_id, req.body.user, req.body.token, res);
 });
 
 export default apiRouterUser;

@@ -1,10 +1,11 @@
 
 import { User } from '../models/user-model';
 import { Model, Sequelize, where } from 'sequelize';
-import { getConstantValue, isJsxAttribute } from 'typescript';
+import { getConstantValue, isJsxAttribute, resolveModuleName } from 'typescript';
 import { Json } from 'sequelize/types/utils';
 import { UserNotFoundError, ParamMissingError } from '../shared/errors';
 import { Singleton } from "../connection/Singleton";
+import { Enter } from '../models/enter-model';
 
 const sequelize: Sequelize = Singleton.getConnection();
 
@@ -48,9 +49,9 @@ export function showONEUser(user_id: any, res: any) {
  * @param token quantità di token da ricaricare
  * @param res risposta da parte del sistema
  */
-export function chargingAdmin ( user_id: string, token: number, res: any ): void{
-    User.update({token: token}, {where: {user_id: user_id}}).then(arr => {
-        res.json(arr);
+export function chargingAdmin ( user_id: string, user: string, token: number, res: any ): void{
+    User.increment({token: token}, {where: {user_id: user}}).then(arr => {
+        res.json({"Effettuata ricarica di token": token});
     });
 };
 
@@ -70,7 +71,7 @@ export function showToken(user_id:string,res:any){
 };
 
 /**
- * Funzione checWin
+ * Funzione Win
  * 
  * Mostra le aste vinte e/o perse di uno specifico user entro un range temporale
  * 
@@ -79,7 +80,7 @@ export function showToken(user_id:string,res:any){
  * @param datefinish data di fine
  * @param res risposta da parte del sistema
  */
-export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any): void {
+export function Win (user_id: string,  datestart: Date, datefinish:Date, res: any): void {
     let ar=[]
         let r: any;
         let l: any;
@@ -102,6 +103,36 @@ export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any
 };
 
 /**
+ * Funzione WinNOData
+ * 
+ * Mostra le aste vinte e/o perse relativo a uno'utente
+ * 
+ * @param user_id id dell'utente
+ * @param res risposta da parte del sistema
+ */
+export function WinNOData (user_id: string, res: any): void {
+    let ar=[]
+        let r: any;
+        let l: any;
+         r =  sequelize.query(
+             "SELECT win, FKAuction_id FROM (auction JOIN enter ON auction.auction_id = enter.FKauction_id)JOIN user ON user.user_id=enter.FKUser_id WHERE user_id=$user_id AND win=1 AND status=1",
+             {bind: {user_id:user_id}
+            }
+           ).then(arr2=>{
+            ar[0]={"Aste vinte": arr2}
+           });
+
+        l =  sequelize.query(
+            "SELECT win, FKAuction_id FROM (auction JOIN enter ON auction.auction_id = enter.FKauction_id)JOIN user ON user.user_id=enter.FKUser_id WHERE user_id=$user_id AND win=0 AND status=1",
+            {bind: {user_id:user_id}}
+            ).then(arr1=>{
+        ar[1]={"Aste perse": arr1}
+            res.json(ar);
+        
+ });
+};
+
+/**
  * Funzione checkUserExistance
  * 
  * Permette di verificare l'esistenza di un utente a partire dal suo id
@@ -110,15 +141,21 @@ export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any
  * @param res risposta da parte del sistema
  * @returns 
  */
- export function checkUser ( user_id: string, res: any): Promise<boolean> {
+ export async function checkUser ( user_id: string, res: any): Promise<boolean> {
     let result: any
-    result =false
-    User.findByPk(user_id).then( arr => {
-        (this.lenght!=0)? result = true: result = false
-    });
-    return Promise.resolve(result);
-};
+    await User.findByPk(user_id).then( arr => {
+    result= arr
+    })
+    return result;
+}
 
+export async function checkCrator ( fkcreator_id: string, res: any): Promise<boolean> {
+    let result: any
+    await User.findAll({attributes: ["user_id"], where: {user_id: fkcreator_id}}).then( arr => {
+    result= arr
+    })
+    return result;
+}
 /**
  * Funzione checkToken  
  * 
@@ -128,9 +165,9 @@ export function Win (user_id: string,  datestart: Date, datefinish:Date,res: any
  * @param bet puntata
  * @param res risposta da parte del sistema
  */
-export function checkToken ( user_id: string, bet: number, res: any): Promise<boolean> {
+export async function checkToken ( user_id: string, bet: number, res: any): Promise<boolean> {
     let result: any
-    User.findAll({where: {user_id: user_id}}).then( arr => {
+    await User.findAll({where: {user_id: user_id}}).then( arr => {
         if ((arr[0].getDataValue("token"))>bet){
             result=true;
         }
@@ -138,7 +175,7 @@ export function checkToken ( user_id: string, bet: number, res: any): Promise<bo
             result = false;
         }
     });
-    return Promise.resolve(result);
+    return result;
 };
 
 
@@ -150,9 +187,9 @@ export function checkToken ( user_id: string, bet: number, res: any): Promise<bo
  * @param res risposta da parte del sistema
  * @returns 
  */
- export function checkRole(user_id: string, res: any): Promise<number>{
+ export async function checkRole(user_id: string, res: any): Promise<number>{
     let result
-    User.findAll({where:{user_id:user_id}}).then(arr=>{
+    await User.findAll({where:{user_id:user_id}}).then(arr=>{
         const role=(arr[0].getDataValue("role"))
         const bip="bip_creator";
         const par="bip_partecipant";
@@ -165,5 +202,23 @@ export function checkToken ( user_id: string, bet: number, res: any): Promise<bo
                 result=2;
             }
     });
-    return Promise.resolve(result);
+    return result;
+};
+
+export async function checkRole2(fkcreator_id: string, res: any): Promise<number>{
+    let result
+    await User.findAll({where:{user_id:fkcreator_id}}).then(arr=>{
+        const role=(arr[0].getDataValue("role"))
+        const bip="bip_creator";
+        const par="bip_partecipant";
+        const admin="admin";
+            if (role===par){
+                result=0;
+            }else if(role===bip){
+                result=1;
+            }else if(role==admin){
+                result=2;
+            }
+    });
+    return result;
 };
