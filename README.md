@@ -167,6 +167,33 @@ Da effettuare tramite token JWT che deve contenere un payload JSON con la seguen
   "token": 500
 }
 ~~~
-**crea un'offerta per un'asta in busta chiusa /api-enter/betClose
-### Aste vinte e non
+**crea un'offerta per un'asta in busta chiusa /api-enter/betClose**
+~~~
+Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
+{
+    "user_id": "2Zbo_lX4d5",
+    "auction_id": 2,
+    "bet": 30
+}
+~~~
+**Aste vinte e non /api-auction/winNoData**
+~~~
+{
+    "user_id": "2Zbo_lX4d5"
+}
+~~~
 
+**Aste vinte e non /api-auction/win**
+~~~
+{
+    "user_id": "4p0KF0xkOi",
+    "datestart": "2021-01-01T09:00:00+01:00",
+    "datefinish": "2023-09-01T09:00:00+01:00"
+}
+~~~
+## Websocket
+E' stata utilizata per creare un canale di comunicazione, al fine di gestire le aste in busta chiusa del primo tipo.
+In particolare è stata utilizzata l'asta con auction_id = 7.
+Per avviare l'interazione fra i client e il server è possibile utilizzare l'estenzione di Google Smart Websocket Client e utilizzare ws://localhost:8080/ come websocket address.
+Una volta avviata la connessione il client può inserire il valore della puntata sotto forma di json (es. {"bet":10} ) e inviare la richiesta.
+Al fine di simulare un'asta reale, è stato impostato un tempo di 20 sec allo scadere dei quali si chiuderà l'asta e verrà decretato il vincitore.
