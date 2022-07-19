@@ -14,7 +14,6 @@ const app = express();
 interface ExtWebSocket extends WebSocket {
     isAlive: boolean;
 }
-const app = express();
 
 const server=require('http').createServer(app);
 
@@ -25,7 +24,7 @@ function createMessageServer(content:string,max=0):string {
     return JSON.stringify(new MessageServer(content,max));
 }
 
-function createMessageClient(bet=0,sender='NS'):string {
+function createMessageClient(bet=0):string {
     return JSON.stringify(new MessageClient(bet));
 }
 
@@ -92,11 +91,6 @@ app.use('/api-user', apiRouterUser);
 app.use('/api-auction', apiRouterAuction);
 app.use('/api-enter',apiRouterEnter);
 
-
-//server.listen(8080 ,()=> console.log("Listening on port 8080"))
-
-app.listen(8080);
-//export default app;
 
 server.listen(8080 ,()=> console.log("Listening on port 8080"))
 
