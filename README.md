@@ -106,6 +106,7 @@ Lo status di un'asta può essere:
 * 0: Futura, non ancora aperta
 * 1: Terminate
 * 2: Attuali, non ancora terminate
+
 Mentre il type può essere:
 * 1: Asta inglese aperta
 * 2: Asta in busta chiusa e pagamento del prezzo più alto
