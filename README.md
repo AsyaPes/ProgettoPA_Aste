@@ -59,3 +59,30 @@ Vengono riportati alcuni diagrammi delle sequenze per descrivere una sequenza di
 
 * **Fatory**, un Creational Design Pattern che fornisce un'interfaccia interfaccia per la creazione di oggetti in una superclasse, ma permette alle
 sottoclassi di modificare il tipo di oggetti che verranno creati.
+
+## Avvio del progetto
+
+Clonare la repository e, dopo essersi posizionati nella cartella, eseguire il seguente comando per avviare Docker:
+~~~
+$ docker-compose up
+~~~
+A questo punto è possibile effettuare le richieste tramite cURL o Postman.
+
+In particolare, le richieste possibili da effettuare sulla porta 8080 sono le seguenti:
+|    TIPO        |ROTTA                          |TOKEN JWT     |
+|----------------|-------------------------------|--------------|
+|GET             |/api-user/showALLUser          |NO|
+|GET             |/api-user/showONEUser          |NO|
+|GET             |/api-user/show-token           |SI|
+|GET             |/api-user/win                  |SI|
+|GET             |/api-user/winNoData            |SI|
+|GET             |/api-user/charging             |SI|
+|POST            |/api-auction/create-auction       |SI|
+|GET             |/api-auction/filter-auction       |NO|
+|GET             |/api-auction/show-all-auction     |NO|
+|GET             |/api-auction/closed-auction       |NO|
+|GET             |/api-auction/open-auction         |NO|
+|POST            |/api-enter/bet-close              |SI|
+|GET             |/api-enter/show-rilanci           |SI|
+|GET             |/api-enter/bet-close              |SI|
+
