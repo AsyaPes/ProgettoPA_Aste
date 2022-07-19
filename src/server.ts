@@ -9,6 +9,8 @@ import apiRouterEnter from './routes/apiEnter';
 import * as ServiceE from './services/enter-service';
 import * as Websocket from 'ws';
 
+const app = express();
+
 interface ExtWebSocket extends WebSocket {
     isAlive: boolean;
 }
@@ -88,7 +90,13 @@ app.use((err: Error | CustomError, _: Request, res: Response, __: NextFunction) 
 
 app.use('/api-user', apiRouterUser);
 app.use('/api-auction', apiRouterAuction);
-
 app.use('/api-enter',apiRouterEnter);
 
+
+//server.listen(8080 ,()=> console.log("Listening on port 8080"))
+
+app.listen(8080);
+//export default app;
+
 server.listen(8080 ,()=> console.log("Listening on port 8080"))
+

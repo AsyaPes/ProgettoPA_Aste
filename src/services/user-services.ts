@@ -1,11 +1,9 @@
 
 import { User } from '../models/user-model';
-import { Model, Sequelize, where } from 'sequelize';
-import { getConstantValue, isJsxAttribute, resolveModuleName } from 'typescript';
-import { Json } from 'sequelize/types/utils';
-import { UserNotFoundError, ParamMissingError } from '../shared/errors';
+import { Sequelize } from 'sequelize';
+import { UserNotFoundError } from '../shared/errors';
 import { Singleton } from "../connection/Singleton";
-import { Enter } from '../models/enter-model';
+import { SuccessEnum, getObj } from '../factory/Success';
 
 const sequelize: Sequelize = Singleton.getConnection();
 /**
@@ -61,6 +59,7 @@ export function showONEUser(user_id: any, res: any) {
  */
 export function chargingAdmin ( user_id: string, user: string, token: number, res: any ): void{
     User.increment({token: token}, {where: {user_id: user}}).then(arr => {
+        const succ = getObj(SuccessEnum.chargingAdmin).getObj();
         res.json({"Effettuata ricarica di token": token});
     });
 };
@@ -124,7 +123,7 @@ export function WinNOData (user_id: string, res: any): void {
     let ar=[]
         let r: any;
         let l: any;
-         r =  sequelize.query(
+        r =  sequelize.query(
              "SELECT win, FKAuction_id FROM (auction JOIN enter ON auction.auction_id = enter.FKauction_id)JOIN user ON user.user_id=enter.FKUser_id WHERE user_id=$user_id AND win=1 AND status=1",
              {bind: {user_id:user_id}
             }
@@ -215,6 +214,16 @@ export async function checkToken ( user_id: string, bet: number, res: any): Prom
     return result;
 };
 
+/**
+ * Funzione checkRole2
+ * 
+ * Funzione utilizzata per controllare il ruolo del fkcreator, ovvero l' utente 
+ * che vuole creare una nuova asta
+ *  
+ * @param fkcreator_id id del creator 
+ * @param res risposta da parte dell'utente
+ * @returns 
+ */
 export async function checkRole2(fkcreator_id: string, res: any): Promise<number>{
     let result
     await User.findAll({where:{user_id:fkcreator_id}}).then(arr=>{
