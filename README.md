@@ -167,6 +167,27 @@ Da effettuare tramite token JWT che deve contenere un payload JSON con la seguen
   "token": 500
 }
 ~~~
-**crea un'offerta per un'asta in busta chiusa /api-enter/betClose
-### Aste vinte e non
+**crea un'offerta per un'asta in busta chiusa /api-enter/betClose**
+~~~
+Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
+{
+    "user_id": "2Zbo_lX4d5",
+    "auction_id": 2,
+    "bet": 30
+}
+~~~
+**Aste vinte e non /api-auction/winNoData**
+~~~
+{
+    "user_id": "2Zbo_lX4d5"
+}
+~~~
 
+**Aste vinte e non /api-auction/win**
+~~~
+{
+    "user_id": "4p0KF0xkOi",
+    "datestart": "2021-01-01T09:00:00+01:00",
+    "datefinish": "2023-09-01T09:00:00+01:00"
+}
+~~~
