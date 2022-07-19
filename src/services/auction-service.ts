@@ -1,9 +1,8 @@
 import { User } from '../models/user-model';
 import { Auction } from '../models/auction-model';
 import { Model, Sequelize, where } from 'sequelize';
-import { Json } from 'sequelize/types/utils';
 import { Singleton } from '../connection/Singleton';
-import { Enter } from '../models/enter-model';
+import { SuccessEnum, getObj } from '../factory/Success';
 
 const sequelize: Sequelize = Singleton.getConnection();
 /**
@@ -16,8 +15,9 @@ const sequelize: Sequelize = Singleton.getConnection();
  */
 export function createAuction(auction_id:number,title:string,fkcreator_id:string,type:number,datetimestart:string,datetimefinish:string,status:number,res:any){
     Auction.create({auction_id:auction_id,title:title,fkcreator_id:fkcreator_id,type:type,datetimestart:datetimestart,datetimefinish:datetimefinish,status:status}).then((arr)=>{
-    res.json({arr});
-         })
+        const succ = getObj(SuccessEnum.CreatedAuction).getObj();
+        res.json({arr});
+    })
 }
 
 /**
@@ -59,9 +59,9 @@ export function filterAuction(status: number, res: any): void{
  * @param res risposta da parte del sistema
  * @returns 
  */
-export function checkAuctionType ( auction_id: string, res: any): Promise<number> {
+export async function checkAuctionType ( auction_id: string, res: any): Promise<number> {
     let type: any
-    Auction.findAll({where: {auction_id: auction_id}}).then(arr => {
+    await Auction.findAll({where: {auction_id: auction_id}}).then(arr => {
         if (arr[0].getDataValue("type")==1) {
             type = 1
         }
@@ -72,23 +72,22 @@ export function checkAuctionType ( auction_id: string, res: any): Promise<number
             type=3;
         }
     });
-    return Promise.resolve(type);
+    return type;
 };
 
 
 /**
- * Funzione checkAuctionType
+ * Funzione checkAuctionStatus
  * 
- * Controlla il tipo di asta (Asta aperta, Asta in busta chiusa e pagamento del prezzo più alto,
- * Asta in busta chiusa e pagamento del secondo prezzo più alto)
+ * Controlla lo stato di un asta (Asta futura, Asta attuale e Asta passata)
  * 
  * @param auction_id id dell'asta
  * @param res risposta da parte del sistema
  * @returns 
  */
- export function checkAuctionStatus ( auction_id: string, res: any): Promise<number> {
+ export async function checkAuctionStatus ( auction_id: string, res: any): Promise<number> {
     let type: any
-    Auction.findAll({where: {auction_id: auction_id}}).then(arr => {
+    await Auction.findAll({where: {auction_id: auction_id}}).then(arr => {
         if (arr[0].getDataValue("status")==0) {
             type = 0
         }
@@ -145,13 +144,13 @@ export function openAuction(user_id:string, res:any):void  {
  * @param res risposta da parte del sistema
  * @returns 
  */
- export function checkAuctionExistance ( auction_id: string, res: any): Promise<boolean> {
+ export async function checkAuctionExistance ( auction_id: string, res: any): Promise<boolean> {
     let result: any
     result =false
-    Auction.findByPk(auction_id).then( arr => {
+    await Auction.findByPk(auction_id).then( arr => {
         (this.lenght!=0)? result = true: result = false
     });
-    return Promise.resolve(result);
+    return result;
 };
 
 
