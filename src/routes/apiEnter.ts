@@ -17,7 +17,7 @@ apiRouterEnter.get('/show-rilanci', function(req: any, res: any) {
     ServiceE.showNRilanci(req.body.user_id, req.body.auction_id, res);
 });
 
-apiRouterEnter.post('/bet-close', middleware.authjwt, middleware.Existance, middleware.partecipant, middleware.check,function(req: any, res: any) {    
+apiRouterEnter.post('/bet-close', middleware.Existance, middleware.partecipant, middleware.check,function(req: any, res: any) {    
     ServiceE.betClose(req.body.user_id, req.body.auction_id, req.body.bet, res);
 });
 
